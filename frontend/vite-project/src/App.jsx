@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import User from './User';
 import Create from './Create';
-import Delete from './Delete';
+import Edit from './Edit';
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -15,7 +15,7 @@ function App() {
     <Routes>
       <Route path='/' element={<User/>}/>
       <Route path='/create' element={<Create/>}/>
-      <Route path='/delete' element={<Delete/>}/>
+      <Route path='/edit/:id' element={<Edit/>}/>
     </Routes>
     </BrowserRouter>
     </>
