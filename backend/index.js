@@ -2,6 +2,7 @@ const express = require("express")
 const cors = require("cors")
 const mongoose = require("mongoose")
 const userModel = require("./models/Schema")
+const RegisterModel = require("./models/RegisterSchema")
 
 const app = express()
 app.use(cors())
@@ -44,11 +45,32 @@ app.put('/updateUser/:id', (req, res) => {
         .catch(err => res.json(err))
 })
 
-app.delete('/deleteUser/:id', (req, res)=>{
+app.delete('/deleteUser/:id', (req, res) => {
     const id = req.params.id
-    userModel.findByIdAndDelete({_id : id})
-    .then(userinfo => res.json(userinfo))
+    userModel.findByIdAndDelete({ _id: id })
+        .then(userinfo => res.json(userinfo))
         .catch(err => res.json(err))
+})
+
+
+app.post('/register', (req, res) => {
+    RegisterModel.create(req.body)
+        .then(registerinfo => res.json(registerinfo))
+        .catch(err => res.json(err))
+})
+
+app.post('/login', async (req, res) => {
+    const user = await RegisterModel.findOne({ email: req.body.email })
+
+    if (!user) {
+        res.json("No accoount found")
+    } if (user.password === req.body.password) {
+        res.json("success")
+    }
+    else {
+        res.json("incorrect password")
+    }
+
 })
 
 app.listen(5000, () => {
